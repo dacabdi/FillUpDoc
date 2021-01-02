@@ -1,0 +1,32 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  buildAndTest:
+    runs-on: [ ubuntu-latest, windows-latest ] 
+    
+    steps:
+      - name: Checkout repository # under $GITHUB_WORKSPACE
+        uses: actions/checkout@v2
+      
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: 5.x
+      
+      - name: Restore
+        working-directory: $GITHUB_WORKSPACE
+        run: dotnet restore
+          
+      - name: Build
+        working-directory: $GITHUB_WORKSPACE
+        run: dotnet build
+          
+      - name: Test
+        working-directory: $GITHUB_WORKSPACE
+        run: dotnet test
