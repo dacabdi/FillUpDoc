@@ -1,4 +1,4 @@
-name: PR Validation
+name: PR Validation Test
 
 on:
   pull_request:
@@ -8,28 +8,52 @@ on:
 
 jobs:
   buildAndTest:
-    name: Build and Test on ${{ matrix.os }}
+    name: Build and Test (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest ]
     steps:
-      - name: Checkout repository # under $GITHUB_WORKSPACE
-        uses: actions/checkout@v2
+      - name: Checkout sources
+        uses: actions/checkout@v1
 
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v1.7.2
+      - name: Prepare and describe environment
+        run: |
+          echo "Preparing '$RUNNER_OS' environment"
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            SUDO=sudo
+            if [ "$GITHUB_ACTOR" == "nektos/act" ]; then
+              echo "Running in 'act' container, not using sudo"
+              SUDO=""
+            fi
+
+            printenv
+            
+            $SUDO apt update
+            $SUDO apt install -y \
+              tree \
+              zlib1g \
+              libicu-dev \
+              liblttng-ust0
+            
+            tree
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            printenv
+            cmd //c "tree /f /a"
+          else
+            echo "$RUNNER_OS not supported"
+            exit 1
+          fi
+        shell: bash
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 5.x
-      
-      - name: Restore
-        working-directory: $GITHUB_WORKSPACE/src
-        run: dotnet restore
-          
-      - name: Build
-        working-directory: $GITHUB_WORKSPACE/src
-        run: dotnet build
-          
-      - name: Test
-        working-directory: $GITHUB_WORKSPACE/src
-        run: dotnet test
+          dotnet-version: 5.0.x
+
+      - name: Build and Test
+        run: |
+          pushd src
+          dotnet restore
+          dotnet build
+          dotnet test

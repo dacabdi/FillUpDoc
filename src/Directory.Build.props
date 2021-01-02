@@ -9,10 +9,16 @@
     <RootNamespace>Simoorg.FillUpDoc</RootNamespace>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <PreserveCompilationContext>false</PreserveCompilationContext>
-    <OutputPath>..\out\$(AssemblyName)</OutputPath>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <OutputPath>$(MSBuildThisFileDirectory)..\bin\$(Configuration)\$(MSBuildProjectName)</OutputPath>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    
+    <!-- Setting BaseIntermediateOutputPath correctly in a SDK-based project is hard: 
+      https://github.com/dotnet/msbuild/issues/1603#issuecomment-460756513 -->
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\obj\$(Configuration)\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(MSBuildThisFileDirectory)..\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <MSBuildProjectExtensionsPath>$(IntermediateOutputPath)\</MSBuildProjectExtensionsPath>
   </PropertyGroup>
-
+  
   <!-- avoid exporting localized resources for itself and dependencies -->
   <PropertyGroup>
     <ResourceLanguages>en</ResourceLanguages>

@@ -1,7 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="CodeAnalysis ruleset" Description="CodeAnalysis ruleset" ToolsVersion="16.0">
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
-    <!-- SA1600ElementsMustBeDocumented -->
+    <Rule Id="CS1591" Action="None" />
+    <!-- Disable "Enable XML documentation output" -->
+    <Rule Id="SA0001" Action="None" />
+    <!-- Disable "Elements must be documented" -->
     <Rule Id="SA1600" Action="None" />
+    <!-- Disable "Partial elements must be documented" -->
+    <Rule Id="SA1601" Action="None" />
+    <!-- Disable "Enumeration items must be documented" -->
+    <Rule Id="SA1602" Action="None" />
+    <!-- Disable "Documentation text should end with a period" -->
+    <Rule Id="SA1629" Action="None" />
   </Rules>
 </RuleSet>
