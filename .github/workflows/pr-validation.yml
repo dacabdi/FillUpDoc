@@ -9,7 +9,6 @@ on:
 jobs:
   buildAndTest:
     runs-on: [ ubuntu-latest, windows-latest ] 
-    
     steps:
       - name: Checkout repository # under $GITHUB_WORKSPACE
         uses: actions/checkout@v2
