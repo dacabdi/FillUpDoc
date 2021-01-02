@@ -1,0 +1,15 @@
+{
+  "settings": {
+    "documentationRules": {
+      "copyrightText": "Licensed under the MIT license. See LICENSE file in the samples root for full license information.",
+      "companyName": "Simoorg"
+    },
+    "layoutRules": {
+      "newlineAtEndOfFile": "require"
+    },
+    "indentation": {
+      "indentationSize": 4,
+      "useTabs": false
+    }
+  }
+}

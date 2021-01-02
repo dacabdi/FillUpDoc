@@ -1,0 +1,59 @@
+name: PR Validation Test
+
+on:
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  buildAndTest:
+    name: Build and Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v1
+
+      - name: Prepare and describe environment
+        run: |
+          echo "Preparing '$RUNNER_OS' environment"
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            SUDO=sudo
+            if [ "$GITHUB_ACTOR" == "nektos/act" ]; then
+              echo "Running in 'act' container, not using sudo"
+              SUDO=""
+            fi
+
+            printenv
+            
+            $SUDO apt update
+            $SUDO apt install -y \
+              tree \
+              zlib1g \
+              libicu-dev \
+              liblttng-ust0
+            
+            tree
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            printenv
+            cmd //c "tree /f /a"
+          else
+            echo "$RUNNER_OS not supported"
+            exit 1
+          fi
+        shell: bash
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+
+      - name: Build and Test
+        run: |
+          pushd src
+          dotnet restore
+          dotnet build
+          dotnet test
