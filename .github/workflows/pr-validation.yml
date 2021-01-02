@@ -8,24 +8,28 @@ on:
 
 jobs:
   buildAndTest:
-    runs-on: [ ubuntu-latest, windows-latest ] 
+    name: Build and Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
     steps:
       - name: Checkout repository # under $GITHUB_WORKSPACE
         uses: actions/checkout@v2
-      
+
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: 5.x
       
       - name: Restore
-        working-directory: $GITHUB_WORKSPACE
+        working-directory: $GITHUB_WORKSPACE/src
         run: dotnet restore
           
       - name: Build
-        working-directory: $GITHUB_WORKSPACE
+        working-directory: $GITHUB_WORKSPACE/src
         run: dotnet build
           
       - name: Test
-        working-directory: $GITHUB_WORKSPACE
+        working-directory: $GITHUB_WORKSPACE/src
         run: dotnet test
