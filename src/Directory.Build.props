@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- general properties -->
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <PublishTrimmed>true</PublishTrimmed>
+    <Prefer32Bit>false</Prefer32Bit>
+    <RootNamespace>Simoorg.FillUpDoc</RootNamespace>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <PreserveCompilationContext>false</PreserveCompilationContext>
+    <OutputPath>..\out\$(AssemblyName)</OutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- avoid exporting localized resources for itself and dependencies -->
+  <PropertyGroup>
+    <ResourceLanguages>en</ResourceLanguages>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <!-- common packages -->
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)\stylecop.json" />
+    <PackageReference Include="AsyncFixer" Version="1.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- style props -->
+  <PropertyGroup>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+</Project>

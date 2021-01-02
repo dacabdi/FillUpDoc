@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="CodeAnalysis ruleset" Description="CodeAnalysis ruleset" ToolsVersion="16.0">
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <!-- SA1600ElementsMustBeDocumented -->
+    <Rule Id="SA1600" Action="None" />
+  </Rules>
+</RuleSet>
